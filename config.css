@@ -1,0 +1,26 @@
+:root {
+    --color-primary: #6C63FF;
+    --color-secondary: #FF6584;
+    --color-accent: #42E2B8;
+    --color-bg: #F0F3FF;
+    --color-text: #2E2E3A;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    margin: 0;
+    min-height: 100vh;
+  }
+  
+  /* Estilos para botones */
+  button {
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
