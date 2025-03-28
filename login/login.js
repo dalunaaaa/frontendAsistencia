@@ -18,7 +18,8 @@ export function renderLogin() {
     try {
       const user = await login(email, password);
       localStorage.setItem('token', user.token);
-      window.location.reload();
+      localStorage.setItem('user', user.nombre);
+      window.dispatchEvent(new Event('auth-change'));
     } catch (error) {
       alert('Error: ' + error.message);
     }

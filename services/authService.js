@@ -13,6 +13,18 @@ export async function login(email, password) {
   return await response.json();
 }
 
+export async function verifyToken(token) {
+  const response = await fetch('http://localhost:3000/auth/verify', {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  
+  if (!response.ok) {
+    throw new Error('Token inválido o expirado');
+  }
+  
+  return await response.json();
+}
+
 export function logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
