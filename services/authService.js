@@ -1,7 +1,10 @@
 export async function login(email, password) {
-  const response = await fetch('http://localhost:3000/auth/login', {
+  const response = await fetch('http://localhost:3000/api/auth/login', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
     body: JSON.stringify({ email, password })
   });
 
@@ -14,8 +17,11 @@ export async function login(email, password) {
 }
 
 export async function verifyToken(token) {
-  const response = await fetch('http://localhost:3000/auth/verify', {
-    headers: { 'Authorization': `Bearer ${token}` }
+  const response = await fetch('http://localhost:3000/api/auth/verify', {
+    headers: { 
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
+    }
   });
   
   if (!response.ok) {
@@ -23,9 +29,4 @@ export async function verifyToken(token) {
   }
   
   return await response.json();
-}
-
-export function logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
 }

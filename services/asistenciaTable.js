@@ -1,4 +1,4 @@
-import { registrarAsistencia } from './asistenciaService.js';
+import { registrarAsistencia } from '../services/asistenciaService.js';
 
 export async function renderAsistenciaTable(alumnos) {
   const table = document.createElement('div');
@@ -31,21 +31,33 @@ export async function renderAsistenciaTable(alumnos) {
       </tbody>
     </table>
     <button id="btn-guardar" class="btn-guardar">Guardar Asistencia</button>
+    <div class="asistencia-status"></div>
   `;
 
-  // Evento para guardar
   table.querySelector('#btn-guardar').addEventListener('click', async () => {
     const rows = table.querySelectorAll('tbody tr');
-    const alumnosActualizados = Array.from(rows).map(row => ({
-      id: parseInt(row.dataset.id),
+    const registros = Array.from(rows).map(row => ({
+      alumnoId: parseInt(row.dataset.id),
       estado: row.querySelector('.estado-select').value
     }));
 
+    const btnGuardar = table.querySelector('#btn-guardar');
+    const statusDiv = table.querySelector('.asistencia-status');
+    
+    btnGuardar.disabled = true;
+    statusDiv.textContent = 'Guardando...';
+    statusDiv.style.color = 'blue';
+
     try {
-      await registrarAsistencia(alumnosActualizados);
-      alert('✅ Asistencia guardada correctamente');
+      await registrarAsistencia(registros);
+      statusDiv.textContent = '✅ Asistencia guardada';
+      statusDiv.style.color = 'green';
     } catch (error) {
-      alert(`❌ Error: ${error.message}`);
+      statusDiv.textContent = `❌ Error: ${error.message}`;
+      statusDiv.style.color = 'red';
+    } finally {
+      btnGuardar.disabled = false;
+      setTimeout(() => statusDiv.textContent = '', 3000);
     }
   });
 
